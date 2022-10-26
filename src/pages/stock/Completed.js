@@ -12,8 +12,8 @@ import EditIcon from "@mui/icons-material/Edit";
 import { Edit } from "@mui/icons-material";
 import DialogsEdit from "./edit";
 // /components/muiComponents/
-import axios from "../../../axios";
-import useNotification from "../../../components/muiComponents/components/core/snakeBar";
+import axios from "../../axios";
+import useNotification from "../../components/muiComponents/components/core/snakeBar";
 import { LinearProgress } from "@mui/material";
 
 const drawerWidth = 250;

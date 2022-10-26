@@ -4,8 +4,8 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Completed from "./Completed";
 import { Link } from "react-router-dom";
-import axios from "../../../axios";
-import useNotification from "../../../components/muiComponents/components/core/snakeBar";
+import axios from "../../axios";
+import useNotification from "../../components/muiComponents/components/core/snakeBar";
 
 
 export default function StockManagement() {

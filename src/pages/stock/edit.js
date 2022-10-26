@@ -9,22 +9,14 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import { useForm, Form } from "../../../components/muiComponents/components/core/formControl/useForm";
-import Input from "../../../components/muiComponents/components/core/inputFeild";
+import { useForm, Form } from "../../components/muiComponents/components/core/formControl/useForm";
+import Input from "../../components/muiComponents/components/core/inputFeild";
 
 import { makeStyles } from "@mui/styles";
 import { createStyles } from "@material-ui/core";
-import ResponsiveAppBar from "../../../components/muiComponents/components/layout/navbar/navbar";
-import { Container } from "@mui/material";
 
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
-
-import axios from "../../../axios";
-import useNotification from "../../../components/muiComponents/components/core/snakeBar";
+import axios from "../../axios";
+import useNotification from "../../components/muiComponents/components/core/snakeBar";
 
 const useStyles = makeStyles(
   () =>
@@ -41,8 +33,7 @@ const useStyles = makeStyles(
         minHeight: "100vh",
         height: "auto",
         width: "500px",
-        margin: "0 auto",
-
+        margin: "12px",
         // backgroundColor: "#ccc",
       },
       Para: {
@@ -104,56 +95,31 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function DialogsAdd(props) {
+export default function DialogsEdit(props) {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-  const [SelectedImage, setSelectedImage] = useState(null);
-  const [, sendNotification] = useNotification();
-
-  const handleChange = (event) => {
-    setValue(event.target.value);
-  };
   const { open, handleClickOpen, handleClose, data } = props;
-
+  const [, sendNotification] = useNotification();
+  const [loading, setLoading] = useState(true);
   const initialFValues = {
     su_name: data ? data.su_name : "",
     su_contact: data ? data.su_contact : "",
     su_email: data ? data.su_email : "",
-    su_contact: data ? data.contact : "",
+    contact: data ? data.contact : "",
     product_type: data ? data.product_type : "",
     monthly_due: data ? data.monthly_due : "",
   };
 
   const validate = useCallback((fieldValues = values) => {
     let temp = { ...errors };
-
-    if ("su_name" in fieldValues)
-      temp.su_name =
-        fieldValues.su_name.length > 5 ? "" : "Minimum 6 characters required.";
-
-    if ("su_contact" in fieldValues)
-      temp.su_contact =
-        fieldValues.su_contact.length > 8
-          ? ""
-          : "Minimum 8 characters required.";
-
-    if ("su_email" in fieldValues)
-      temp.su_email = /$^|.+@.+..+/.test(fieldValues.su_email)
+    if ("email" in fieldValues)
+      temp.email = /$^|.+@.+..+/.test(fieldValues.email)
         ? ""
         : "Email is not valid.";
+    if ("password" in fieldValues)
+      temp.password =
+        fieldValues.password.length > 5 ? "" : "Minimum 6 characters required.";
 
-    if ("product_type" in fieldValues)
-      temp.product_type =
-        fieldValues.product_type.length > 2
-          ? ""
-          : "Minimum 2 characters required.";
-
-    if ("monthly_due" in fieldValues)
-      temp.monthly_due =
-        fieldValues.monthly_due.length > 1
-          ? ""
-          : "Minimum 2 characters required.";
-
+    // console.log(values.password, values.Cpassword, "///");
     setErrors({
       ...temp,
     });
@@ -168,13 +134,9 @@ export default function DialogsAdd(props) {
   );
   const handleSend = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      console.log("koko");
-      handleSubmit();
-    } else {
-      sendNotification({ msg: "enter correct feild", variant: "error" });
-    }
-    // handleSubmit();
+
+    console.log("kok");
+    handleSubmit();
     // handleClose();
   };
   const handleSubmit = (e) => {
@@ -183,29 +145,40 @@ export default function DialogsAdd(props) {
       su_name: values.su_name,
       su_contact: values.su_contact,
       su_email: values.su_email,
-      contact: values.su_contact,
-      product_type: values.product_type,
+      contact: values.contact,
+      product_type: "000",
       monthly_due: Number(values.monthly_due),
     };
     axios
-      .post(`stock`, json, {
-        headers: { "Content-Type": "application/json" },
+      .put(`stock`, json, {
+        params: { id: data.id },
+        headers: { "Content-Type": "application/json; charset=utf8" },
       })
       .then((res) => {
         sendNotification({ msg: "success", variant: "success" });
         window.location.href = "/stock";
+        setLoading(false);
       })
       .catch((error) => {
         console.log("There was an error!", error.response);
-        sendNotification({ msg: "something went wrong", variant: "error" });
+        sendNotification({ msg: "error", variant: "error" });
+        setLoading(false);
       });
   };
   return (
     <div>
-    
-      <br />
-      <Container>
-        <Form className={classes.MainDiv}>
+      <BootstrapDialog
+        onClose={handleClose}
+        aria-labelledby="customized-dialog-title"
+        open={open}
+      >
+        <BootstrapDialogTitle
+          id="customized-dialog-title"
+          onClose={handleClose}
+        >
+          Edit Data
+        </BootstrapDialogTitle>
+        <Form className={classes.MainDiv} onSubmit={handleSubmit}>
           <Input
             name="su_name"
             label="Name"
@@ -239,6 +212,7 @@ export default function DialogsAdd(props) {
           />
           <br />
 
+          <br />
           <Input
             name="product_type"
             type="product_type"
@@ -258,21 +232,14 @@ export default function DialogsAdd(props) {
             error={errors.monthly_due}
             label="Monthly Due"
           />
-          <br />
-
-          <br />
-          <br />
-          <Button
-            style={{ background: "green", color: "#fff" }}
-            onClick={handleSend}
-          >
-            Add
-          </Button>
         </Form>
-      </Container>
-      <br />
-      <br />
-      <br />
+        <DialogContent dividers></DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleSend}>
+            {loading ? "Save changes" : "loading..."}
+          </Button>
+        </DialogActions>
+      </BootstrapDialog>
     </div>
   );
 }
