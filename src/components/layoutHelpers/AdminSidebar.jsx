@@ -10,12 +10,14 @@ import {
 	BriefcaseIcon,
 	ArrowRightOnRectangleIcon,
 	UserGroupIcon,
+	
 } from "@heroicons/react/24/solid";
 import LogoutModal from "../loginRegister/LogoutModal";
 
 const ADM_LAND_URL = "/admin";
 const ADM_EMPS_URL = "/admin/employees";
 const ADM_JOBS_URL = "/admin/jobs";
+const STOCK_JOBS_URL = "/admin/stock";
 
 function AdminSidebar({ auth }) {
 	const { setAuth } = useContext(AuthContext);
@@ -36,6 +38,7 @@ function AdminSidebar({ auth }) {
 
 	function gotoPage(e, url) {
 		e.preventDefault();
+		console.log(url)
 		navigate(url);
 	}
 
@@ -103,7 +106,16 @@ function AdminSidebar({ auth }) {
 							>
 								<div className="inline-block align-middle">Jobs</div>
 							</Sidebar.Item>
+							<Sidebar.Item
+								href=""
+								onClick={(e) => gotoPage(e, STOCK_JOBS_URL)}
+								icon={BriefcaseIcon}
+								style={{ height: "2.5rem" }}
+							>
+								<div className="inline-block align-middle">Stock</div>
+							</Sidebar.Item>
 						</Sidebar.ItemGroup>
+						
 						<Sidebar.ItemGroup>
 							<Sidebar.Item
 								href=""

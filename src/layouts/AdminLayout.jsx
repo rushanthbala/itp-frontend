@@ -10,6 +10,8 @@ import AdminPanel from "../pages/ServiceCreation/Admin/AdminPanel";
 import ServiceUpdate from "../pages/ServiceCreation/Admin/ServiceUpdate";
 import ServiceCreate from "../pages/ServiceCreation/Admin/ServiceCreate";
 import RequestedServices from '../pages/ServiceCreation/Admin/RequestedServices';
+import StockManagementPage from "../pages/empManagement/stockManagement";
+import DialogsAdd from "../pages/empManagement/stock/addStock";
 
 function AdminLayout() {
 	const { auth } = useContext(AuthContext);
@@ -29,6 +31,14 @@ function AdminLayout() {
 						<Route
 							path="employees/*"
 							element={<AdmEmpPage auth={auth} />}
+						></Route>
+						<Route
+							path="add-stock"
+							element={<DialogsAdd auth={auth} />}
+						></Route>
+						<Route
+							path="stock/*"
+							element={<StockManagementPage auth={auth} />}
 						></Route>
 						<Route
 							path="/SCAdmin"
