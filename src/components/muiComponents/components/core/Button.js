@@ -9,7 +9,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     width: "100%",
     height: (props) => (props.height ? props.height : "46px"),
-    // background: "#FFFFFF",
     borderRadius: "20px",
     cursor: "pointer !important",
     border: "1px solid #4B0082",
