@@ -3,7 +3,6 @@ import { Button as MuiButton, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    // margin: theme.spacing(0.5),
     justifyContent: "center",
     color: "#4B0082",
     display: "flex",
